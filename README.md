@@ -207,6 +207,47 @@ Gateway: `http://localhost:8080`
 
 Account Service: `http://localhost:8081`
 
+## Local API Smoke Test
+
+After Docker Compose starts both services, submit a transaction through Gateway:
+
+```bash
+curl -i -X POST http://localhost:8080/events \
+  -H "Content-Type: application/json" \
+  -H "X-Trace-Id: local-trace-001" \
+  -d '{
+    "eventId": "evt-local-001",
+    "accountId": "acct-local",
+    "type": "CREDIT",
+    "amount": 150.00,
+    "currency": "USD",
+    "eventTimestamp": "2026-05-15T14:02:11Z",
+    "metadata": {
+      "source": "local-curl"
+    }
+  }'
+```
+
+Query the event and account state:
+
+```bash
+curl -i http://localhost:8080/events/evt-local-001
+curl -i "http://localhost:8080/events?account=acct-local"
+curl -i -H "X-Internal-Api-Key: supersecret" http://localhost:8081/accounts/acct-local
+curl -i -H "X-Internal-Api-Key: supersecret" http://localhost:8081/accounts/acct-local/balance
+```
+
+Check health and metrics:
+
+```bash
+curl -i http://localhost:8080/health
+curl -i http://localhost:8080/metrics
+curl -i http://localhost:8081/health
+curl -i http://localhost:8081/metrics
+```
+
+More curl examples are in `docs/api/event-ledger.http`.
+
 ## Tests And Coverage
 
 Run all local checks:

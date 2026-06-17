@@ -21,6 +21,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+          cache: maven
       - name: Cache Sonar packages
         uses: actions/cache@v4
         with:
@@ -29,8 +30,10 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_ORGANIZATION: saiktagore-code
+          SONAR_HOST_URL: https://sonarcloud.io
         run: |
           cd gateway-service
-          mvn -B clean verify sonar:sonar -Dsonar.projectKey=event-ledger-gateway -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN}
+          mvn -B clean verify sonar:sonar -Dsonar.projectKey=event-ledger-gateway -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
           cd ../account-service
-          mvn -B clean verify sonar:sonar -Dsonar.projectKey=event-ledger-account -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN}
+          mvn -B clean verify sonar:sonar -Dsonar.projectKey=event-ledger-account -Dsonar.organization=${SONAR_ORGANIZATION} -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}

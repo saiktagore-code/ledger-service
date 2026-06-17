@@ -17,6 +17,18 @@ flowchart LR
 - Services are independently deployable and do not share database, cache, memory, or application state.
 - Synchronous REST is the only service-to-service communication path.
 
+## Documentation Index
+
+- BMAD PRD: `docs/bmad/prd.md`
+- BMAD architecture: `docs/bmad/architecture.md`
+- BMAD epics and stories: `docs/bmad/epics.md`, `docs/bmad/stories.md`
+- Requirements traceability matrix: `docs/bmad/requirements-traceability.md`
+- QA gate: `docs/bmad/qa-gate.md`
+- Architecture decision records: `docs/adr/`
+- Runbook: `docs/runbook.md`
+- Threat model: `docs/threat-model.md`
+- Curl examples: `docs/api/event-ledger.http`
+
 ## Data Flow
 
 1. Client calls `POST /events`.

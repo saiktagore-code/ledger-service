@@ -1,0 +1,97 @@
+# Event Ledger Curl Examples
+
+Set variables:
+
+```bash
+export GATEWAY_URL=http://localhost:8080
+export ACCOUNT_URL=http://localhost:8081
+export INTERNAL_API_KEY=supersecret
+export TRACE_ID=demo-trace-001
+```
+
+Submit a credit event:
+
+```bash
+curl -i -X POST "$GATEWAY_URL/events" \
+  -H "Content-Type: application/json" \
+  -H "X-Trace-Id: $TRACE_ID" \
+  -d '{
+    "eventId": "evt-demo-001",
+    "accountId": "acct-demo",
+    "type": "CREDIT",
+    "amount": 150.00,
+    "currency": "USD",
+    "eventTimestamp": "2026-05-15T14:02:11Z",
+    "metadata": {
+      "source": "curl-demo",
+      "batchId": "B-9042"
+    }
+  }'
+```
+
+Submit a duplicate event:
+
+```bash
+curl -i -X POST "$GATEWAY_URL/events" \
+  -H "Content-Type: application/json" \
+  -H "X-Trace-Id: $TRACE_ID" \
+  -d '{
+    "eventId": "evt-demo-001",
+    "accountId": "acct-demo",
+    "type": "CREDIT",
+    "amount": 150.00,
+    "currency": "USD",
+    "eventTimestamp": "2026-05-15T14:02:11Z"
+  }'
+```
+
+Query an event:
+
+```bash
+curl -i "$GATEWAY_URL/events/evt-demo-001"
+```
+
+Query account events:
+
+```bash
+curl -i "$GATEWAY_URL/events?account=acct-demo"
+```
+
+Query account balance:
+
+```bash
+curl -i -H "X-Internal-Api-Key: $INTERNAL_API_KEY" \
+  "$ACCOUNT_URL/accounts/acct-demo/balance"
+```
+
+Query account details:
+
+```bash
+curl -i -H "X-Internal-Api-Key: $INTERNAL_API_KEY" \
+  "$ACCOUNT_URL/accounts/acct-demo"
+```
+
+Validation failure example:
+
+```bash
+curl -i -X POST "$GATEWAY_URL/events" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "eventId": "evt-invalid",
+    "accountId": "bad-account",
+    "type": "CREDIT",
+    "amount": 0,
+    "currency": "EUR",
+    "eventTimestamp": "2026-05-15T14:02:11Z"
+  }'
+```
+
+Health and metrics:
+
+```bash
+curl -i "$GATEWAY_URL/health"
+curl -i "$GATEWAY_URL/metrics"
+curl -i "$ACCOUNT_URL/health"
+curl -i "$ACCOUNT_URL/metrics"
+```
+

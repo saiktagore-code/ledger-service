@@ -37,7 +37,6 @@ This model covers Gateway, Account Service, REST communication between services,
 - Internal service authentication.
 - Request size limits.
 - Safe Problem Details-style errors.
-- OWASP Dependency Check in CI.
 - CodeQL static analysis in CI.
 - Sonar quality scanning.
 
@@ -48,4 +47,3 @@ This model covers Gateway, Account Service, REST communication between services,
 - H2 is not appropriate for production durability.
 - Internal API key should move to Vault, AWS Secrets Manager, or Kubernetes secret integration in production.
 - TLS/mTLS should protect service-to-service traffic outside local development.
-

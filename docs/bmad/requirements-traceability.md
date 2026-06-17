@@ -38,11 +38,9 @@
 | Integration/resiliency tests | `GatewayIntegrationTest`, service/controller tests |
 | Coverage gate | JaCoCo config in each POM and `run-local-checks.sh` |
 | CI/CD | `.github/workflows` |
-| OWASP Dependency Check | `.github/workflows` |
 | CodeQL | `.github/workflows/codeql-analysis.yml` |
 | SonarQube/SonarCloud | `.github/workflows/sonar.yml` |
 | Docker Compose | `docker-compose.yml` |
 | README documentation | `README.md` |
 | Architecture diagrams | README Mermaid diagram and lifecycle diagram |
 | Production evolution | README and ADRs |
-

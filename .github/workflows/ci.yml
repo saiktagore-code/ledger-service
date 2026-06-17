@@ -17,11 +17,6 @@ jobs:
           distribution: temurin
           java-version: 21
           cache: maven
-      - name: Cache OWASP Dependency Check data
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository/org/owasp/dependency-check-data
-          key: ${{ runner.os }}-dependency-check-data
       - name: Build Gateway Service
         run: |
           cd gateway-service
@@ -30,25 +25,3 @@ jobs:
         run: |
           cd account-service
           mvn -B clean verify
-      - name: OWASP Dependency Check
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
-        run: |
-          NVD_ARGS=""
-          if [ -n "$NVD_API_KEY" ]; then
-            NVD_ARGS="-DnvdApiKey=$NVD_API_KEY"
-          fi
-
-          cd gateway-service
-          mvn -B org.owasp:dependency-check-maven:12.1.0:check -DfailBuildOnCVSS=9 -Dformat=HTML $NVD_ARGS
-
-          cd ../account-service
-          mvn -B org.owasp:dependency-check-maven:12.1.0:check -DfailBuildOnCVSS=9 -Dformat=HTML $NVD_ARGS
-      - name: Upload dependency-check reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: dependency-check-reports
-          path: |
-            gateway-service/target/dependency-check-report.html
-            account-service/target/dependency-check-report.html

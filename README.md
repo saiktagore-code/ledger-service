@@ -271,7 +271,6 @@ GitHub Actions includes:
 
 - Maven build and `verify`
 - Unit tests and coverage gates
-- OWASP Dependency Check with critical vulnerability failure threshold
 - CodeQL Java analysis
 - SonarQube/SonarCloud scanning
 
